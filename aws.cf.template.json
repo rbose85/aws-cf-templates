@@ -1,6 +1,19 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Create a VPC with a public and a private subnet.",
+  "Parameters": {
+    "AvailabilityZone": {
+      "Description": "Name of an AvailabilityZone",
+      "Type": "AWS::EC2::AvailabilityZone::Name",
+      "Default": "eu-central-1a",
+      "AllowedValues": [
+        "eu-central-1a",
+        "eu-central-1b",
+        "eu-central-1c"
+      ],
+      "ConstraintDescription": "Must be a valid AvailabilityZone."
+    }
+  },
   "Resources": {
     "VPC": {
       "Type": "AWS::EC2::VPC",
@@ -138,19 +151,6 @@
           }
         ]
       }
-    }
-  },
-  "Parameters": {
-    "AvailabilityZone": {
-      "Description": "Name of an AvailabilityZone",
-      "Type": "AWS::EC2::AvailabilityZone::Name",
-      "Default": "eu-central-1a",
-      "AllowedValues": [
-        "eu-central-1a",
-        "eu-central-1b",
-        "eu-central-1c"
-      ],
-      "ConstraintDescription": "Must be a valid AvailabilityZone."
     }
   }
 }
