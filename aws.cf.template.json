@@ -201,7 +201,7 @@
       "Type": "AWS::EC2::Instance",
       "DependsOn": "InternetGatewayAttachment",
       "Properties": {
-        "ImageId": "ami-6527cf0a",
+        "ImageId": "ami-ea26ce85",
         "InstanceType": "t2.nano",
         "KeyName": {
           "Ref": "KeyName"
