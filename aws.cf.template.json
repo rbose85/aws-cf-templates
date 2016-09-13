@@ -3,7 +3,7 @@
   "Description": "Create a VPC with a public and a private subnet.",
   "Parameters": {
     "AvailabilityZone": {
-      "Description": "Name of an AvailabilityZone",
+      "Description": "Name of an AvailabilityZone.",
       "Type": "AWS::EC2::AvailabilityZone::Name",
       "Default": "eu-central-1a",
       "AllowedValues": [
@@ -83,7 +83,7 @@
     },
     "Route": {
       "Type": "AWS::EC2::Route",
-      "DependsOn" : "InternetGatewayAttachment",
+      "DependsOn": "InternetGatewayAttachment",
       "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": {
