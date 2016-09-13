@@ -5,11 +5,37 @@
     "VPC": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
-        "CidrBlock": "10.0.0.0/16"
+        "CidrBlock": "10.0.0.0/16",
+        "Tags": [
+          {
+            "Key": "Owner",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Purpose",
+            "Value": "VPC of related resources."
+          }
+        ]
       }
     },
     "InternetGateway": {
-      "Type": "AWS::EC2::InternetGateway"
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Owner",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Purpose",
+            "Value": "Provide access to the Internet for the VPC."
+          }
+        ]
+      }
     },
     "InternetGatewayAttachment": {
       "Type": "AWS::EC2::VPCGatewayAttachment",
@@ -27,7 +53,19 @@
       "Properties": {
         "VpcId": {
           "Ref": "VPC"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "Owner",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Purpose",
+            "Value": "A customer RouteTable for the VPC that will include a Route for Internet access."
+          }
+        ]
       }
     },
     "Route": {
@@ -51,7 +89,19 @@
         "CidrBlock": "10.0.0.0/24",
         "VpcId": {
           "Ref": "VPC"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "Owner",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Purpose",
+            "Value": "Add a Subnet to the VPC with access to the Internet."
+          }
+        ]
       }
     },
     "SubnetRouteTableAssociation": {
@@ -74,7 +124,19 @@
         "CidrBlock": "10.0.1.0/24",
         "VpcId": {
           "Ref": "VPC"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "Owner",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Purpose",
+            "Value": "Add a Subnet to the VPC without access to the Internet."
+          }
+        ]
       }
     }
   },
