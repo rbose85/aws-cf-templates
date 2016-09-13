@@ -83,6 +83,7 @@
     },
     "Route": {
       "Type": "AWS::EC2::Route",
+      "DependsOn" : "InternetGatewayAttachment",
       "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": {
