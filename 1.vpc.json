@@ -52,7 +52,7 @@
         ]
       }
     },
-    "InternetGatewayAttachment": {
+    "VPCGatewayAttachment": {
       "Type": "AWS::EC2::VPCGatewayAttachment",
       "Properties": {
         "InternetGatewayId": {
@@ -85,7 +85,7 @@
     },
     "Route": {
       "Type": "AWS::EC2::Route",
-      "DependsOn": "InternetGatewayAttachment",
+      "DependsOn": "VPCGatewayAttachment",
       "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": {
