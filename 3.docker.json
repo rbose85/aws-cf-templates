@@ -118,7 +118,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "DC (Public)"
+            "Value": "Public"
           },
           {
             "Key": "Owner",
@@ -173,7 +173,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "DC (Web Server)"
+            "Value": "Web Server"
           },
           {
             "Key": "Owner",
@@ -206,7 +206,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "DC (Bastion Server)"
+            "Value": "Bastion"
           },
           {
             "Key": "Owner",
