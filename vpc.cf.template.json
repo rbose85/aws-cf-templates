@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Create a VPC for `eu-central-1` with a Bastion Server for SSH.",
+  "Description": "Create a VPC for eu-central-1.",
   "Parameters": {
     "AvailabilityZone": {
       "Description": "Name of an AvailabilityZone.",
@@ -12,11 +12,6 @@
         "eu-central-1c"
       ],
       "ConstraintDescription": "Must be a valid AvailabilityZone."
-    },
-    "KeyName": {
-      "Description": "Name of existing EC2 KeyPair.",
-      "Type": "AWS::EC2::KeyPair::KeyName",
-      "ConstraintDescription": "Must be the name of an existing EC2 KeyPair."
     }
   },
   "Resources": {
@@ -157,118 +152,6 @@
             "Key": "Purpose",
             "Value": "Add a Subnet to the VPC without access to the Internet."
           }
-        ]
-      }
-    },
-    "ElasticIP": {
-      "Type": "AWS::EC2::EIP",
-      "DependsOn": "InternetGatewayAttachment",
-      "Properties": {
-        "Domain": "vpc",
-        "InstanceId": {
-          "Ref": "EC2Bastion"
-        }
-      }
-    },
-    "SecurityGroup": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "Enable port 22 traffic for SSH.",
-        "SecurityGroupIngress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "FromPort": 22,
-            "IpProtocol": "tcp",
-            "ToPort": 22
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Owner",
-            "Value": {
-              "Ref": "AWS::StackName"
-            }
-          },
-          {
-            "Key": "Purpose",
-            "Value": "SecurityGroup to enable SSH connection over port 22 to Bastion Server."
-          }
-        ],
-        "VpcId": {
-          "Ref": "VPC"
-        }
-      }
-    },
-    "EC2Bastion": {
-      "Type": "AWS::EC2::Instance",
-      "DependsOn": "InternetGatewayAttachment",
-      "Properties": {
-        "ImageId": "ami-ea26ce85",
-        "InstanceType": "t2.nano",
-        "KeyName": {
-          "Ref": "KeyName"
-        },
-        "NetworkInterfaces": [
-          {
-            "GroupSet": [
-              {
-                "Ref": "SecurityGroup"
-              }
-            ],
-            "AssociatePublicIpAddress": "true",
-            "DeviceIndex": "0",
-            "DeleteOnTermination": "true",
-            "SubnetId": {
-              "Ref": "SubnetPublic"
-            }
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Owner",
-            "Value": {
-              "Ref": "AWS::StackName"
-            }
-          },
-          {
-            "Key": "Purpose",
-            "Value": "EC2 Bastion Server to SSH into all EC2 instances of the VPC."
-          }
-        ]
-      }
-    }
-  },
-  "Outputs": {
-    "InstanceId": {
-      "Description": "InstanceId of the EC2 instance acting as a Bastion Server.",
-      "Value": {
-        "Ref": "EC2Bastion"
-      }
-    },
-    "AvailabilityZone": {
-      "Description": "AvailabilityZone of the EC2 instance acting as a Bastion Server.",
-      "Value": {
-        "Fn::GetAtt": [
-          "EC2Bastion",
-          "AvailabilityZone"
-        ]
-      }
-    },
-    "PublicDNS": {
-      "Description": "PublicDNSName of the EC2 instance acting as a Bastion Server.",
-      "Value": {
-        "Fn::GetAtt": [
-          "EC2Bastion",
-          "PublicDnsName"
-        ]
-      }
-    },
-    "PublicIP": {
-      "Description": "PublicIP address of the EC2 instance acting as a Bastion Server.",
-      "Value": {
-        "Fn::GetAtt": [
-          "EC2Bastion",
-          "PublicIp"
         ]
       }
     }
