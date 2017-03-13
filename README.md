@@ -79,8 +79,42 @@ $ aws --profile arcadia.digital \
       --stack-name arcadia-digital
 ```
 
+### List EC2 KeyPairs
+
+```bash
+$ aws --profile arcadia.digital ec2 describe-key-pairs
+```
+
+Use this command to help identify a possible EC2 KeyPair which can be used to bind to a new EC2 instance and enable SSH access.
 
 ## Consuming Templates
+
+### VPC and Bastion Server
+
+#### Create a VPC
+
+```bash
+$ aws --profile arcadia.digital \
+      cloudformation create-stack \
+      --stack-name arcadia-digital \
+      --template-body file:///`pwd`/vpc/1.vpc.json
+```
+
+#### Add a Bastion Server
+
+```bash
+$ aws --profile arcadia.digital \
+      cloudformation update-stack \
+      --stack-name arcadia-digital \
+      --template-body file:///`pwd`/vpc/2.bs.json \
+      --parameters ParameterKey=KeyName,ParameterValue=arcadia-digital-bs \
+                   ParameterKey=Subnet,ParameterValue=subnet-8484f6ec \
+                   ParameterKey=VPC,ParameterValue=vpc-abdf6dc3
+```
+
+### VPC with Multiple Availability Zones and Bastion Server
+
+#### Create a VPC
 
 Start by first creating a VPC. This VPC shall serve as the bases of the infrastructure to follow.
 
@@ -88,8 +122,10 @@ Start by first creating a VPC. This VPC shall serve as the bases of the infrastr
 $ aws --profile arcadia.digital \
       cloudformation create-stack \
       --stack-name arcadia-digital \
-      --template-body file:///~/Code/personal/aws-cf-templates/1.vpc.json
+      --template-body file:///`pwd`/vpc-az/1.vpc.json
 ```
+
+#### Add a Bastion Server
 
 Next, provision the requirements for the Bastion Server within the newly created VPC.
 
@@ -97,6 +133,12 @@ Next, provision the requirements for the Bastion Server within the newly created
 $ aws --profile arcadia.digital \
       cloudformation update-stack \
       --stack-name arcadia-digital \
-      --template-body file:///~/Code/personal/aws-cf-templates/2.bs.json \
-      --parameters ParameterKey=KeyName,ParameterValue=arcadia-digital-bs
+      --template-body file:///`pwd`/vpc-az/2.bs.json \
+      --parameters ParameterKey=KeyName,ParameterValue=arcadia-digital-bs \
+                   ParameterKey=Subnet,ParameterValue=subnet-8484f6ec \
+                   ParameterKey=VPC,ParameterValue=vpc-abdf6dc3
 ```
+
+Note the use of the `update-stack` sub-command in the above snippet - `2.bs.json` configuration extends `1.vpc.json`. To find the set of available EC2 KeyPairs refer to [List EC2 KeyPairs](list-ec2-keypairs).
+
+Additionally, the above command expects the following parameters to be provided when working with `2.bs.json`; `KeyName`, `Subnet`, `VPC`. For both the `Subnet` and `VPC`, use the value for `subnetId` and `vpcId` which are listed within Output from running the `1.vpc.json` configuration. See the section on [Describe Stacks](describe-stacks) for further information. 

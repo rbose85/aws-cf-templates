@@ -8,8 +8,7 @@
       "Default": "eu-central-1a",
       "AllowedValues": [
         "eu-central-1a",
-        "eu-central-1b",
-        "eu-central-1c"
+        "eu-central-1b"
       ],
       "ConstraintDescription": "Must be a valid AvailabilityZone."
     }
@@ -153,6 +152,20 @@
             "Value": "Add a Subnet to the VPC without access to the Internet."
           }
         ]
+      }
+    }
+  },
+  "Outputs": {
+    "subnetId": {
+      "Description": "Id of a Subnet with access to the internet.",
+      "Value": {
+        "Ref": "SubnetPublic"
+      }
+    },
+    "vpcId": {
+      "Description": "Id of the newly created VPC.",
+      "Value": {
+        "Ref": "VPC"
       }
     }
   }
