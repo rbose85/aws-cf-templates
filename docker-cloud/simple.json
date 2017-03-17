@@ -182,7 +182,7 @@
           },
           {
             "Key": "Purpose",
-            "Value": "A SecurityGroup to that enables ports; 22, 80, and 443."
+            "Value": "A SecurityGroup that enables ports; 22, 80, and 443."
           }
         ],
         "VpcId": {

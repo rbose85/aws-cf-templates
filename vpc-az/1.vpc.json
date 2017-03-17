@@ -125,7 +125,7 @@
         }
       }
     },
-    "SubnetPublic1A": {
+    "SubnetPublicA": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "AvailabilityZone": "eu-central-1a",
@@ -143,7 +143,7 @@
                   {
                     "Ref": "AWS::StackName"
                   },
-                  "SubnetPublic1A"
+                  "SubnetPublicA"
                 ]
               ]
             }
@@ -161,18 +161,18 @@
         ]
       }
     },
-    "SubnetRouteTableAssociation": {
+    "SubnetRouteTableAssociationA": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
         "RouteTableId": {
           "Ref": "RouteTable"
         },
         "SubnetId": {
-          "Ref": "SubnetPublic1A"
+          "Ref": "SubnetPublicA"
         }
       }
     },
-    "SubnetPrivate1A": {
+    "SubnetPrivateA": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "AvailabilityZone": "eu-central-1a",
@@ -190,7 +190,7 @@
                   {
                     "Ref": "AWS::StackName"
                   },
-                  "SubnetPrivate1A"
+                  "SubnetPrivateA"
                 ]
               ]
             }
@@ -208,7 +208,7 @@
         ]
       }
     },
-    "SubnetPrivate1B": {
+    "SubnetPublicB": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "AvailabilityZone": "eu-central-1b",
@@ -226,7 +226,54 @@
                   {
                     "Ref": "AWS::StackName"
                   },
-                  "SubnetPrivate1B"
+                  "SubnetPublicB"
+                ]
+              ]
+            }
+          },
+          {
+            "Key": "Owner",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Purpose",
+            "Value": "Add a Subnet to the VPC with access to the Internet."
+          }
+        ]
+      }
+    },
+    "SubnetRouteTableAssociationB": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTable"
+        },
+        "SubnetId": {
+          "Ref": "SubnetPublicB"
+        }
+      }
+    },
+    "SubnetPrivateB": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "AvailabilityZone": "eu-central-1b",
+        "CidrBlock": "10.0.3.0/24",
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "SubnetPrivateB"
                 ]
               ]
             }
@@ -246,12 +293,6 @@
     }
   },
   "Outputs": {
-    "subnetId": {
-      "Description": "Id of a Subnet with access to the internet.",
-      "Value": {
-        "Ref": "SubnetPublic1A"
-      }
-    },
     "vpcId": {
       "Description": "Id of the newly created VPC.",
       "Value": {
